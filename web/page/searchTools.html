@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $(window).keydown(function(event){
+                switch(event.keyCode) {
+                    case 38:{
+
+                        break;
+                    }
+                    case 40:{
+                        //如果是第一次按向下的键，那么$(".miniClass")的size 肯定为0
+                        if($(".miniClass").size()==0){
+                            $(".message_area>li:first-child").addClass("miniClass");
+
+                            $("#keywords").val($(".message_area>li:first-child").text());
+                        }else{
+                            //
+                            if($(".miniClass").next().size()==0){
+                                $(".message_area>li:last-child").removeClass("miniClass");
+                                $(".message_area>li:first-child").addClass("miniClass");
+                                $("#keywords").val($(".message_area>li:first-child").text());
+
+                            }else{
+                                $(".miniClass").removeClass("miniClass").next().addClass("miniClass");
+                                $("#keywords").val($(".miniClass").text());
+
+                            }
+
+                        }
+
+                        break;
+                    }
+                }
+            });
+
+            //光标定位
+            $("#keywords").focus();
+            $("#keywords").keyup(function(){
+
+                var keywords=$(this).val();
+                if(keywords){
+                    //去后台发送一个http 请求，发关键字传到服务到，然后取十条记录...
+
+                    //把十条记录放到message_area
+                    $(".message_area").show();
+
+                    $(".message_area>li").mouseover(function(){
+                        $(".message_area>li").removeClass("miniClass");
+                        $(this).addClass("miniClass");
+
+
+
+                    })
+
+                    $(".message_area>li").mouseout(function(){
+                        $(this).removeClass("miniClass");
+                    })
+
+
+                }else{
+                    //如果输入框没有值，隐藏
+                    $(".message_area").hide();
+
+                }
+            })
+
+            $("#keywords").blur(function(){
+                $(".message_area").hide();
+            })
+
+        })
+
+
+
+    </script>
+
+
+    <style type="text/css">
+        #keywords{
+            width:500px;
+            font-size:28px;
+        }
+        #minibutton{
+            font-size:28px;
+            margin-left:3px;
+        }
+        .message_area{
+            border:1px solid #999999;
+            width:500px;
+            margin-left:-138px;
+            display:none;
+        }
+        .message_area li{
+            list-style:none;
+            padding:5px;
+
+        }
+        .miniClass{
+            background:red;
+        }
+
+    </style>
+
+
+
+</head>
+<body>
+<div align="center">
+    <input type="text" id="keywords" name="keywords"><input type="button" value="迷你搜索" id="minibutton">
+    <div align="left" class="message_area">
+        <li>中国好老公</li>
+        <li>中国好老婆</li>
+        <li>中国大妹子</li>
+        <li>中国好程序员</li>
+    </div>
+
+</div>
+</body>
+</html>
